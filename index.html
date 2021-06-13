@@ -16,8 +16,8 @@
 <li>
 <ul>
 <li><a href="#motivation">Motivation</a></li>
-<li><a href="#a-good-representation-is-all-you-need">A good representation is all you need</a></li>
-<li><a href="#sneak-peek-into-the-data-generation-process">Sneak peek into the Data generation process</a></li>
+<li><a href="#mathematical-expressions-as-sequences">Mathematical Expressions as Sequences</a></li>
+<li><a href="#a-sneak-peek-into-the-data-generation-process">A Sneak Peek into the Data Generation Process</a></li>
 <li><a href="#attention-is-all-you-need">Attention is all you need</a></li>
 <li><a href="#results">Results</a></li>
 </ul>
@@ -29,14 +29,15 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <p><em>This blog post was co-authored with Reemet Ammer, Alfred Saidlo, and Jatan Shrestha as a part of the Neural Network’s course project at the University of Tartu. This article attempts to illustrate the idea behind <a href="https://arxiv.org/abs/1912.01412?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%253A%20arxiv%252FQSXk%20%2528ExcitingAds%2521%20cs%20updates%20on%20arXiv.org%2529">Deep Learning for Symbolic Mathematics</a> and strives to reproduce the results outlined in the paper by Guillaume Lample and François Charton.</em></p>
+<p><img src="https://i.ibb.co/cN5y4b2/10.jpg" alt="Symbolic Maths"></p>
 <p>&nbsp;</p>
 <h2 id="motivation">Motivation</h2>
 <p><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf"><em><strong>AlexNet</strong></em></a> singlehandedly kickstarted the Deep Learning Revolution in 2012 by successfully demonstrating the power of deep neural networks to win the <a href="https://www.image-net.org/">ImageNet image classification challenge</a> by leaving the competitors in the dust. The advancement of Graphical Processing Units (GPUs), large labeled datasets in an era of Big Data, and the rapid improvement of deeper neural architectures led to crucial breakthroughs in a wide range of problems.</p>
-<p><img src="https://i.ibb.co/qCRhPMJ/01.png" alt="Applications of Deep Learning"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applications of Deep Learning</em></p>
-<p><em><strong>Deep learning</strong></em> methods are the current state of the art in many applications pertaining to Computer Vision, Speech Recognition, and Natural Language Processing. Deep Learning has exhibited stellar effectiveness in pattern recognition, natural language processing, and machine translation- a symbol manipulation task but has failed to demonstrate any success in Symbolic computations. Deep Neural Networks capable of classifying thousands of images with a frightening degree of accuracy are inferior in menial mathematical tasks like integer multiplication.</p>
+<p><img src="https://i.ibb.co/C1zs7q1/11.png" alt="Applications of Deep Learning"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Applications of Deep Learning</em></p>
+<p>Deep learning methods are the current state of the art in many applications pertaining to Computer Vision, Speech Recognition, and Natural Language Processing. Deep Learning has exhibited stellar effectiveness in pattern recognition, natural language processing, and machine translation- a symbol manipulation task but has failed to demonstrate any success in Symbolic computations. Deep Neural Networks capable of classifying thousands of images with a frightening degree of accuracy are inferior in menial mathematical tasks like integer multiplication.</p>
 <p>But what if we could use the current state-of-the-art architectures used for machine translation to solve symbolic computation. The current architectures for machine translation work with sentences considered as sequences of tokens and need no domain-specific knowledge such as grammar and dictionaries. Moreover, they can perform complex tasks without any supervision. So, a central theme behind this paper is to perceive mathematics as a language, generate large datasets of problems and their solutions, and solve a problem by directly translating it into its solution.</p>
   <p>&nbsp;</p>
-<h2 id="a-good-representation-is-all-you-need">A good representation is all you need</h2>
+<h2 id="mathematical-expressions-as-sequences">Mathematical Expressions as Sequences</h2>
 <p><em><strong>Machine Translation</strong></em> for symbolic mathematics follows the same workflow as any other NLP / Machine translation tasks:</p>
 <ul>
 <li>
@@ -50,13 +51,13 @@
 </li>
 </ul>
 <p>So, how do we represent problems and solutions as sequences? The idea is to convert the expressions to trees and then from trees to sequences.</p>
-<p><img src="https://i.ibb.co/HB4pmy3/02.png" alt="Sequence Representation"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Expressions to trees</em><br>
-<img src="https://i.ibb.co/PrG9PYG/03.png" alt="Tree to Seq"><br>
-<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Trees to sequences</em></p>
+<p><img src="https://i.ibb.co/gyj6PSF/12.png" alt="Sequence Representation"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Expressions to trees</em><br>
+<img src="https://i.ibb.co/VtzxRCQ/13.png" alt="Tree to Seq"><br>
+<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trees to sequences</em></p>
 <p>Now the expressions can be processed by seq2seq models.</p>
 <p>&nbsp;</p>
-<h2 id="sneak-peek-into-the-data-generation-process">Sneak peek into the Data generation process</h2>
-<p>The paper mainly considers three tasks in Symbolic Mathematics:</p>
+<h2 id="a-sneak-peek-into-the-data-generation-process">A Sneak Peek into the Data Generation Process</h2>
+<p><em><strong>The paper</strong></em> mainly considers three tasks in Symbolic Mathematics:</p>
 <ul>
 <li>
 <p>Symbolic Integration</p>
@@ -79,7 +80,7 @@
 </ul>
 <p>Now the question remains, how do we generate the datasets? Creating large datasets of problems and their solutions boil down to a Supervised Learning problem. The process of generating a random problem and its solution involves the formation of a random unary-binary tree.  The operators are selected at random as their internal nodes, and sample constants or variables are left as their leaves.</p>
 <p>There are three different ways to generate data, i.e., a problem and their solution for the symbolic integration.</p>
-<p>The first one is the <strong>Forward (FWD)</strong> approach</p>
+<p><em>The first one is the <strong>Forward (FWD)</strong> approach</em></p>
 <p><img src="https://i.ibb.co/Qvr01M9/04.png" alt="fwd"></p>
 <ul>
 <li>
@@ -89,7 +90,7 @@
 <p>However, this approach is slow and limited to functions the framework can integrate.</p>
 </li>
 </ul>
-<p>The alternative is the <strong>Backward (BWD)</strong> approach</p>
+<p><em>The alternative is the <strong>Backward (BWD)</strong> approach</em></p>
 <p><img src="https://i.ibb.co/pP8bfcg/05.png" alt="bwd"></p>
 <ul>
 <li>
@@ -99,7 +100,7 @@
 <p>BWD leads to long problems with short solutions whereas FWD leads to short problems with longer solutions.</p>
 </li>
 </ul>
-<p>The middle ground is the <strong>Integration by parts (IBP)</strong> approach</p>
+<p><em>The middle ground is the <strong>Integration by parts (IBP)</strong> approach</em></p>
 <p><img src="https://i.ibb.co/x7VhCG3/06.png" alt="ibp"></p>
 <ul>
 <li>This approach generates random functions <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathnormal" style="margin-right: 0.13889em;">F</span></span></span></span></span> and <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathnormal">G</span></span></span></span></span>, computes their derivatives <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathnormal" style="margin-right: 0.10764em;">f</span></span></span></span></span> and <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord mathnormal" style="margin-right: 0.03588em;">g</span></span></span></span></span> and if <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi> <mo>∗</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">f  \,*  G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathnormal" style="margin-right: 0.10764em;">f</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathnormal">G</span></span></span></span></span> is in the training set, compute the integral of <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi> <mo>∗</mo><mi>g</mi></mrow><annotation encoding="application/x-tex">F \, * g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathnormal" style="margin-right: 0.13889em;">F</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord mathnormal" style="margin-right: 0.03588em;">g</span></span></span></span></span> with : <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><mi>F</mi><mi>g</mi><mo>=</mo><mi>F</mi> <mi>G</mi><mo>−</mo><mo>∫</mo><mi>f</mi><mi>G</mi></mrow><annotation encoding="application/x-tex">\int F g =F\,G - \int fG</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.11112em; vertical-align: -0.30612em;"></span><span class="mop op-symbol small-op" style="margin-right: 0.19445em; position: relative; top: -0.00056em;">∫</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathnormal" style="margin-right: 0.13889em;">F</span><span class="mord mathnormal" style="margin-right: 0.03588em;">g</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.76666em; vertical-align: -0.08333em;"></span><span class="mord mathnormal" style="margin-right: 0.13889em;">F</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1.11112em; vertical-align: -0.30612em;"></span><span class="mop op-symbol small-op" style="margin-right: 0.19445em; position: relative; top: -0.00056em;">∫</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathnormal" style="margin-right: 0.10764em;">f</span><span class="mord mathnormal">G</span></span></span></span></span></li>
@@ -122,11 +123,11 @@
 </ul>
 <h2 id="attention-is-all-you-need">Attention is all you need</h2>
 <p><a href="https://jalammar.github.io/illustrated-transformer/"><em><strong>Transformer Model</strong></em></a> was leveraged to tackle the seq2seq task. The architecture is an example of a non-recurrent neural network with an attention mechanism. It comprises of 6 layers, 8 attention heads, 512 dimensions, and was trained over cross-entropy loss with <a href="https://arxiv.org/abs/1412.6980">Adam optimizer</a>.</p>
-<p><img src="https://i.ibb.co/s116mF6/08.png" alt="Transformer"><br>
-<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Transformer Architecture</em></p>
+<p><img src="https://i.ibb.co/rQLWDhJ/08.png" alt="Transformer"><br>
+<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Transformer Architecture</em></p>
 <p>The Seq2Seq model takes an input sequence of arbitrary length and transforms it into some output sequence of arbitrary length.</p>
 <p><img src="https://i.ibb.co/wNyWXGr/07.png" alt="Seq2seq"><br>
-<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input sequence in German transformed to output sequence in English</em></p>
+<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input sequence in German transformed to output sequence in English</em></p>
 <p>Moreover, the beam search is used at inference to look for a token by token generation of the most likely answer. Using Beam search at inference allows the generation of several solutions.</p>
 <h2 id="results">Results</h2>
 <p><em><strong>The evaluation</strong></em> process involves</p>
